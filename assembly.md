@@ -4,21 +4,26 @@ ssh hughes.annab@xfer.discovery.neu.edu
 cd /projects/gatins/2025_HBE_Genome/raw
 wget https://s3.amazonaws.com/gtl-public-data/miten/remy/12_1_25_LSK114_AMH_HBE_dorado.1.0.0_sup.bam hughes.annab@xfer.discovery.neu.edu:/projects/gatins/2025_HBE_Genome/raw
 ```
-run time: started at 13:29
+run time: 03:00:00
 
 ## Convert bam to fastq with samtools
 ```
-module load samtools/1.9
+module load samtools/1.21
 samtools bam2fq /projects/gatins/2025_HBE_Genome/raw/12_1_25_LSK114_AMH_HBE_dorado.1.0.0_sup.bam > /projects/gatins/2025_HBE_Genome/assembly/hbe.fastq
 ```
-run time:
+run time: 01:01:00
 
 ## Check fastq stats with SeqKit
 ```
 module load anaconda3/2024.06
-seqkit stat /projects/gatins/2025_HBE_Genome/assembly/*.fastq
+source activate /projects/gatins/programs_explorer/SeqKit
+seqkit stat hbe.fastq
 ```
-run time:
+run time: <10 mins
+
+| file   |    format | type   |  num_seqs   |       sum_len | min_len | avg_len   | max_len |
+|--------|-----------|--------|-------------|---------------|--------|--------|------|
+|hbe.fastq | FASTQ |  DNA |  182,803,626 | 203,672,202,934     |   5 | 1,114.2 | 1,209,147 |
 
 ## Trim adapters with Porechop
 ```

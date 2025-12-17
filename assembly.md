@@ -27,7 +27,7 @@ run time: <10 mins
 
 ## Trim adapters with Porechop
 ```
-/projects/gatins/programs_explorer/Porechop/porechop-runner.py -i /projects/gatins/2025_HBE_Genome/assembly/hbe.fastq -o hbe_noadapters.fastq
+/projects/gatins/programs_explorer/Porechop/porechop-runner.py -i /projects/gatins/2025_HBE_Genome/assembly/hbe.fastq -o hbe_noadapters.fastq --threads 50
 ```
 job id: porechop
 run time:

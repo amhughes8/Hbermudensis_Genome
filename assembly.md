@@ -30,4 +30,17 @@ run time: <10 mins
 /projects/gatins/programs_explorer/Porechop/porechop-runner.py -i /projects/gatins/2025_HBE_Genome/assembly/hbe.fastq -o hbe_noadapters.fastq --threads 50
 ```
 job id: porechop
-run time:
+run time: 19:34:00
+
+## Filter with SeqKit: min length 10kb, min quality Q5
+```
+source activate /projects/gatins/programs_explorer/SeqKit/
+seqkit seq hbe_noadapters.fastq -m 10000 -Q 5 -j 10 > /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered_10kQ5.fastq
+```
+### check stats
+```
+seqkit stat hbe_filtered_10kQ5.fastq
+```
+| file     |                 format | type | num_seqs    |    sum_len | min_len |  avg_len | max_len |
+|--------|-----------|--------|-------------|---------------|--------|--------|------|
+| hbe_filtered_10kQ5.fastq | FASTQ |  DNA  |  436,063 | 7,415,328,471  | 10,000 | 17,005.2 | 723,911 |

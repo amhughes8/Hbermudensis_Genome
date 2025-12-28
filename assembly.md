@@ -41,6 +41,33 @@ seqkit seq hbe_noadapters.fastq -m 10000 -Q 5 -j 10 > /projects/gatins/2025_HBE_
 ```
 seqkit stat hbe_filtered_10kQ5.fastq
 ```
-| file     |                 format | type | num_seqs    |    sum_len | min_len |  avg_len | max_len |
+| file     |    format | type | num_seqs    |    sum_len | min_len |  avg_len | max_len |
 |--------|-----------|--------|-------------|---------------|--------|--------|------|
 | hbe_filtered_10kQ5.fastq | FASTQ |  DNA  |  436,063 | 7,415,328,471  | 10,000 | 17,005.2 | 723,911 |
+
+## Check coverage with jellyfish
+```
+cd /projects/gatins/programs_explorer/jellyfish_2.2/bin
+./jellyfish count -m 21 -s 500M -t 10 -C -o /projects/gatins/2025_HBE_Genome/assembly/hbeQ5_21mer_output /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered_10kQ5.fastq
+```
+Generate histogram:
+```
+./jellyfish histo /projects/gatins/2025_HBE_Genome/assembly/hbeQ5_21mer_output > /projects/gatins/2025_HBE_Genome/assembly/hbeQ5_21mer_output.histo
+```
+
+The jellyfish output showed that this subset of data only gives about 10x coverage. Let's try filtering to a 5k cutoff and see if this improves.
+
+## Use SeqKit to filter for 5k min length
+| file     |    format | type | num_seqs    |    sum_len | min_len |  avg_len | max_len |
+|--------|-----------|--------|-------------|---------------|--------|--------|------|
+| hbe_filtered_5kQ5.fastq | FASTQ  | DNA  | 3,082,960 | 24,622,611,268 |   5,000 | 7,986.7 | 723,911 |
+
+## check coverage on new dataset with jellyfish
+```
+cd /projects/gatins/programs_explorer/jellyfish_2.2/bin
+./jellyfish count -m 21 -s 500M -t 10 -C -o /projects/gatins/2025_HBE_Genome/assembly/hbe5kQ5_21mer_output /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered_5kQ5.fastq
+```
+Generate histogram:
+```
+./jellyfish histo /projects/gatins/2025_HBE_Genome/assembly/hbe5kQ5_21mer_output > /projects/gatins/2025_HBE_Genome/assembly/hbe5kQ5_21mer_output.histo
+```

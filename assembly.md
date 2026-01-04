@@ -71,3 +71,36 @@ Generate histogram:
 ```
 ./jellyfish histo /projects/gatins/2025_HBE_Genome/assembly/hbe5kQ5_21mer_output > /projects/gatins/2025_HBE_Genome/assembly/hbe5kQ5_21mer_output.histo
 ```
+~35x coverage, moving forward
+
+## Remove mtDNA
+download mito genome from NCBI (accession: PV742858.1)
+```
+PV742858.1_HBE_mtdna.fasta
+```
+Use minimap2 to map filtered fastq reads pre-assembly (hbe_filtered_5kQ5.fastq) to reference mitochondrial sequence (PV742858.1_HBE_mtdna.fasta)
+```
+/projects/gatins/programs_explorer/minimap2/minimap2 -t 40 -ax map-ont PV742858.1_HBE_mtdna.fasta hbe_filtered_5kQ5.fastq > aln_minimap2.sam
+```
+Use samtools to extract sequences that mapped to mitochondrial genome
+```
+module load samtools/1.21
+samtools view -Sb -@ 30 aln_minimap2.sam > mtdna_aligned.bam
+samtools sort -@ 20 mtdna_aligned.bam -o mito_aln.sorted.bam
+samtools index mito_aln.sorted.bam
+```
+Extract sequences that were unmapped and save them to a new BAM file
+```
+samtools view -b -f 4 -@ 20 mito_aln.sorted.bam > unmapped.bam
+```
+Convert BAM to FASTQ
+```
+samtools fastq unmapped.bam > reads_no_mito.fastq
+```
+
+## Assemble with hifiasm
+```
+/projects/gatins/programs_explorer/hifiasm/hifiasm -o assembly_hifiasm_hbe_no_mito.asm --ont -t32 /work/gatins/2025_HBE_Genome/assembly/reads_no_mito.fastq
+```
+job id: hifiasm_hbe
+run time:

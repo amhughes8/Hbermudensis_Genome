@@ -100,7 +100,9 @@ samtools fastq unmapped.bam > reads_no_mito.fastq
 
 ## Assemble with hifiasm
 ```
-/projects/gatins/programs_explorer/hifiasm/hifiasm -o assembly_hifiasm_hbe_no_mito.asm --ont -t32 /work/gatins/2025_HBE_Genome/assembly/reads_no_mito.fastq
+/projects/gatins/programs_explorer/hifiasm/hifiasm -o hifiasm_hbe.asm --ont -t32 /projects/gatins/2025_H
+BE_Genome/assembly/reads_no_mito.fastq
 ```
 job id: hifiasm_hbe
+
 run time:

@@ -105,4 +105,16 @@ BE_Genome/assembly/reads_no_mito.fastq
 ```
 job id: hifiasm_hbe
 
-run time:
+run time: 4 hrs
+
+## BUSCO
+```
+module load anaconda3/2022.05
+source activate /projects/gatins/programs_explorer/busco
+busco -i /projects/gatins/2025_HBE_Genome/jobs/hbe_hifiasm_assembly.fasta --mode genome --lineage_dataset actinopterygii_odb12 --cpu 25 --out hbe_hifiasm_nomito_busco
+```
+
+## SeqKit stats on assembly + BUSCO
+| file     |    format | type | num_seqs    |    sum_len | min_len |  avg_len | max_len | BUSCO |
+|--------|-----------|--------|-------------|---------------|--------|--------|------|---|
+| hbe_hifiasm_assembly.fasta | FASTA |  DNA    |    699 | 623,092,146  |  6,162 | 891,405.1 | 8,801,329 | busco |

@@ -115,6 +115,6 @@ busco -i /projects/gatins/2025_HBE_Genome/jobs/hbe_hifiasm_assembly.fasta --mode
 ```
 
 ## SeqKit stats on assembly + BUSCO
-| file     |    format | type | num_seqs    |    sum_len | min_len |  avg_len | max_len | BUSCO |
-|--------|-----------|--------|-------------|---------------|--------|--------|------|---|
-| hbe_hifiasm_assembly.fasta | FASTA |  DNA    |    699 | 623,092,146  |  6,162 | 891,405.1 | 8,801,329 | 98.8% |
+| file    |        format | type | num_seqs  |  sum_len | min_len |   avg_len  |  max_len |  Q1  | Q2 | Q3 | sum_gap  |  N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
+|---------|---------------|-------|---------|------------|--------|------------|-----------|-----|-----|----|---------|-------|--------|---------|-------|---------|-------|-------|--------|
+|hbe_hifiasm_assembly.fasta | FASTA  | DNA     |   699 | 623,092,146  |  6,162 | 891,405.1 | 8,801,329 | 34,613 | 234,787 | 1,309,041.5  |  0 | 2,363,646   |    80     |  0 |   0  | 0 | 41.38 | 0 | 98.8% |

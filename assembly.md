@@ -133,6 +133,7 @@ FCS output:
 | ptg000372l	| 65086	| ACTION_TRIM	| 6471..6495	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB02001.1:Oxford Nanopore Technologies Ligation Adapter bottom (LA) |
 
 ## Porechop_ABI
+running with 100G RAM and 10 threads... we'll see how it goes
 ```
 porechop_abi --ab_initio -i /projects/gatins/2025_HBE_Genome/assembly/hbe.fastq -o /projects/gatins/2025_HBE_Genome/assembly/hbe_noadapters_abi.fastq
 ```

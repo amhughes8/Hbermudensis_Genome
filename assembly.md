@@ -131,3 +131,8 @@ FCS output:
 |-----------|---------|-------|----------|
 | ptg000037l |	1956817	| ACTION_TRIM	| 18191..18218,28770..28796,41816..41843,82031..82056,97905..97932	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB02000.1:Oxford Nanopore Technologies Rapid Adapter (RA) Ligation Adapter top (LA) Native Adaptor top (NA) polyT masked |
 | ptg000372l	| 65086	| ACTION_TRIM	| 6471..6495	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB02001.1:Oxford Nanopore Technologies Ligation Adapter bottom (LA) |
+
+## Porechop_ABI
+```
+porechop_abi --ab_initio -i /projects/gatins/2025_HBE_Genome/assembly/hbe.fastq -o /projects/gatins/2025_HBE_Genome/assembly/hbe_noadapters_abi.fastq
+```

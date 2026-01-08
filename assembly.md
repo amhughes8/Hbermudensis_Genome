@@ -118,3 +118,16 @@ busco -i /projects/gatins/2025_HBE_Genome/jobs/hbe_hifiasm_assembly.fasta --mode
 | file    |        format | type | num_seqs  |  sum_len | min_len |   avg_len  |  max_len |  Q1  | Q2 | Q3 | sum_gap  |  N50 | N50_num | Q20(%) | Q30(%) | AvgQual | GC(%) | sum_n | BUSCO |
 |---------|---------------|-------|---------|------------|--------|------------|-----------|-----|-----|----|---------|-------|--------|---------|-------|---------|-------|-------|--------|
 |hbe_hifiasm_assembly.fasta | FASTA  | DNA     |   699 | 623,092,146  |  6,162 | 891,405.1 | 8,801,329 | 34,613 | 234,787 | 1,309,041.5  |  0 | 2,363,646   |    80     |  0 |   0  | 0 | 41.38 | 0 | 98.8% |
+
+Despite a very complete assembly, there are a ton of contigs so I'm confused. I used FCS to check for adapter contamination and it looks like Porechop did not completely remove all adapter content, so this could possibly contribute to the issue? Let's try to use Porechop_ABI (ab initio) -- an extension of Porechop.
+
+FCS command:
+```
+cd /projects/gatins/2025_HCI_Genome/processing/fcs
+./run_fcsadaptor.sh --fasta-input /projects/gatins/2025_HBE_Genome/assembly/hifiasm_5kQ5_nomito/hbe_assembly_15kcutoff.fasta --output-dir /projects/gatins/2025_HBE_Genome/assembly/hifiasm_5kQ5_nomito --euk --container-engine singularity --image fcs-adaptor.sif
+```
+FCS output:
+| accession	| length	| action |	range	name |
+|-----------|---------|-------|----------|
+| ptg000037l |	1956817	| ACTION_TRIM	| 18191..18218,28770..28796,41816..41843,82031..82056,97905..97932	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB02000.1:Oxford Nanopore Technologies Rapid Adapter (RA) Ligation Adapter top (LA) Native Adaptor top (NA) polyT masked |
+| ptg000372l	| 65086	| ACTION_TRIM	| 6471..6495	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB02001.1:Oxford Nanopore Technologies Ligation Adapter bottom (LA) |

@@ -132,6 +132,12 @@ FCS output:
 | ptg000037l |	1956817	| ACTION_TRIM	| 18191..18218,28770..28796,41816..41843,82031..82056,97905..97932	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB02000.1:Oxford Nanopore Technologies Rapid Adapter (RA) Ligation Adapter top (LA) Native Adaptor top (NA) polyT masked |
 | ptg000372l	| 65086	| ACTION_TRIM	| 6471..6495	| CONTAMINATION_SOURCE_TYPE_ADAPTOR:NGB02001.1:Oxford Nanopore Technologies Ligation Adapter bottom (LA) |
 
+## Back to filtering, going to follow queen angel protocol exactly
+Filtering to 2.5kb min length
+| file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n |
+|-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|------|
+| hbe_filtered2.5kQ5.fastq | FASTQ  | DNA |  15,553,224 | 66,328,006,101  |  2,500 | 4,264.6 | 723,911 | 2,871 | 3,445 | 4,574  | 0 | 4,153 | 49,208  | 87.88 |  81.93  |  17.12 | 41.61  |    0 |
+
 ## Porechop_ABI
 running with 100G RAM and 10 threads... we'll see how it goes
 ```

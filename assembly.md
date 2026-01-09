@@ -145,5 +145,11 @@ Filtering to 2.5kb min length
 |-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|
 | hbe_filtered2.5kQ5.fastq | FASTQ  | DNA |  15,553,224 | 66,328,006,101  |  2,500 | 4,264.6 | 723,911 | 2,871 | 3,445 | 4,574  | 0 | 4,153 | 49,208  | 87.88 |  81.93  |  17.12 | 41.61  |    0 |
 
+## checking coverage w jellyfish
+```
+cd /projects/gatins/programs_explorer/jellyfish_2.2/bin
+./jellyfish count -m 21 -s 500M -t 10 -C -o /projects/gatins/2025_HBE_Genome/assembly/hbe2.5kQ5_21mer_output /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered_2.5kQ5.fastq
+```
+
 ## Re-assembling
 First, I'll try without removing the mtDNA but then based on how the assembly looks, ill remove it

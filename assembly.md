@@ -148,7 +148,7 @@ Filtering to 2.5kb min length
 ## checking coverage w jellyfish
 ```
 cd /projects/gatins/programs_explorer/jellyfish_2.2/bin
-./jellyfish count -m 21 -s 500M -t 10 -C -o /projects/gatins/2025_HBE_Genome/assembly/hbe2.5kQ5_21mer_output /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered_2.5kQ5.fastq
+./jellyfish count -m 21 -s 500M -t 10 -C -o /projects/gatins/2025_HBE_Genome/assembly/hbe2.5kQ5_21mer_output /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered2.5kQ5.fastq
 ```
 
 ## Re-assembling

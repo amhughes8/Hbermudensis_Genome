@@ -151,5 +151,13 @@ cd /projects/gatins/programs_explorer/jellyfish_2.2/bin
 ./jellyfish count -m 21 -s 500M -t 10 -C -o /projects/gatins/2025_HBE_Genome/assembly/hbe2.5kQ5_21mer_output /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered2.5kQ5.fastq
 ```
 
+Generate histogram:
+```
+./jellyfish histo /projects/gatins/2025_HBE_Genome/assembly/hbe2.5kQ5_21mer_output > /projects/gatins/2025_HBE_Genome/assembly/hbe2.5kQ5_21mer_output.histo
+```
+
 ## Re-assembling
-First, I'll try without removing the mtDNA but then based on how the assembly looks, ill remove it
+First, I'll try without removing the mtDNA but then based on how the assembly looks, ill maybe remove it
+```
+/projects/gatins/programs_explorer/hifiasm/hifiasm -o hifiasm_hbe_2.5kQ5.asm --ont -t32 /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered2.5kQ5.fastq
+```

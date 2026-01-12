@@ -164,7 +164,7 @@ First, I'll try without removing the mtDNA but then based on how the assembly lo
 
 | file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n | BUSCO |
 |-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|----|
-| hifiasm_hbe_2.5kQ5.fasta | FASTA |  DNA  |  300 | 612,738,996 | 2,913 | 2,042,463.3 | 32,203,147 | 6,788 | 12,635.5 | 44,141  |  0 | 26,165,013  |     11    |   0  |     0    |    0 | 41.45  |    0 | busco |
+| hifiasm_hbe_2.5kQ5.fasta | FASTA |  DNA  |  300 | 612,738,996 | 2,913 | 2,042,463.3 | 32,203,147 | 6,788 | 12,635.5 | 44,141  |  0 | 26,165,013  |     11    |   0  |     0    |    0 | 41.45  |    0 | 98.8% |
 
 Yayy this looks great! Now, I'm going to go back to the filtered reads and filter out the mtDNA before assembling to see if this improves.
 

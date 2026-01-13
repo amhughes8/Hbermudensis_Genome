@@ -199,8 +199,27 @@ samtools fastq unmapped.bam > reads_no_mito_2.5kQ5.fastq
 ## Contamination removal with Kraken2
 It looks like the assembly with mitochondrial DNA left in is the best, so I'm going to move forward with it (hifiasm_hbe_2.5kQ5.fasta)
 
-** Run this as a batch job so you get an output and error file! We will use the output file to filter
+**Run this as a batch job so you get an output and error file! We will use the output file to filter**
 ```
 /projects/gatins/programs_explorer/kraken2/kraken2 --threads 10 --db /projects/gatins/2025_HCI_Genome/processing/krakendb_fish --use-names --report krakendb_fish_hifiasm_2.5kQ5_report /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hifiasm_hbe_2.5kQ5.fasta
 ```
 script: kraken2.sh
+
+We will use **output_kraken2.txt** to get a list of just contigs from our output:
+```
+grep "ptg" /projects/gatins/2025_HBE_Genome/jobs/output_kraken2.txt > kraken2_results.txt
+```
+Now, we want to remove anything of **non-fish origin**.
+```
+grep "Lagodon rhomboides\|Stegastes partitus\|Gadus morhua" kraken2_results.txt | cut -f2 > assembly.fasta.actinopt.list
+```
+Using samtools, we will extract from the assembly only the contigs identified as Human or unclassified. Bacteria, viruses and plasmids will be excluded.
+```
+module load samtools/1.21
+xargs samtools faidx /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hifiasm_hbe_2.5kQ5.fasta  < assembly.fasta.actinopt.list > assembly_fishdb_nocontam.fasta
+```
+seqkit stats
+
+| file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n | BUSCO |
+|-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|----|
+| assembly_fishdb_nocontam.fasta | FASTA |  DNA | 250 | 609,356,917 | 2,913 | 2,437,427.7 | 32,203,147 | 6,589 | 10,845 | 27,417 | 0 | 26,165,013 |      11  |     0   |    0    |    0 | 41.46   |   0 | busco |

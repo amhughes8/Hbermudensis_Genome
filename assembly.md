@@ -199,6 +199,8 @@ samtools fastq unmapped.bam > reads_no_mito_2.5kQ5.fastq
 ## Contamination removal with Kraken2
 It looks like the assembly with mitochondrial DNA left in is the best, so I'm going to move forward with it (hifiasm_hbe_2.5kQ5.fasta)
 
+** Run this as a batch job so you get an output and error file! We will use the output file to filter
 ```
 /projects/gatins/programs_explorer/kraken2/kraken2 --threads 10 --db /projects/gatins/2025_HCI_Genome/processing/krakendb_fish --use-names --report krakendb_fish_hifiasm_2.5kQ5_report /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hifiasm_hbe_2.5kQ5.fasta
 ```
+script: kraken2.sh

@@ -252,3 +252,17 @@ First, let's use Diamond to BLAST our assembly before and after contamination re
         --threads 60 \
         > /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hbe_assembly_nocontam.diamond.blastx.out
 ```
+
+Now, let's create Blobtools directories
+```
+blobtools create \
+    --fasta /projects/gatins/2025_HBE_Genome/jobs/assembly_fishdb_nocontam.fasta \
+    --taxid 272798 \
+    --taxdump /projects/gatins/2025_HCI_Genome/processing/blobtools2/taxdump \ ???
+    --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \
+    --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_busco/run_actinopterygii_odb12/full_table.tsv \
+    --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_assembly.diamond.blastx.out \
+    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_assembly_blobdir
+
+#need a .csi file for coverage bam! make sure to run samtools index -c input.bam output.bam.csi
+```

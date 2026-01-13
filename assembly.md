@@ -191,3 +191,7 @@ samtools fastq unmapped.bam > reads_no_mito_2.5kQ5.fastq
 ```
 /projects/gatins/programs_explorer/hifiasm/hifiasm -o hifiasm_hbe_nomito_2.5kQ5.asm --ont -t32 /projects/gatins/2025_HBE_Genome/assembly/reads_no_mito_2.5kQ5.fastq
 ```
+
+| file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n | BUSCO |
+|-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|----|
+| hifiasm_hbe_nomito_2.5kQ5.fasta | FASTA |  DNA  |  303 | 613,056,136 | 2,913 | 2,023,287.6 | 32,203,146 | 6,828.5 | 13,316 | 45,848 |  0  | 26,023,302    |   11  |     0    |   0      |  0 | 41.44  |    0 | busco |

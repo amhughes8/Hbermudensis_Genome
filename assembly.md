@@ -223,3 +223,32 @@ seqkit stats
 | file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n | BUSCO |
 |-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|----|
 | assembly_fishdb_nocontam.fasta | FASTA |  DNA | 250 | 609,356,917 | 2,913 | 2,437,427.7 | 32,203,147 | 6,589 | 10,845 | 27,417 | 0 | 26,165,013 |      11  |     0   |    0    |    0 | 41.46   |   0 | busco |
+
+## More contamination removal with Blobtools2
+
+See [H. ciliaris assembly](https://github.com/amhughes8/Hciliaris_Genome/blob/main/Holacanthus-ciliaris-Genome-Assembly.md) for more information on how Blobtools2 and the diamond database I'm blasting against were configured.
+
+First, let's use Diamond to BLAST our assembly before and after contamination removal to our RefProt database:
+```
+# original
+./diamond blastx \
+        --query /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hifiasm_hbe_2.5kQ5.fasta \
+        --db reference_proteomes.dmnd \
+        --outfmt 6 qseqid staxids bitscore qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
+        --faster \
+        --max-target-seqs 1 \
+        --evalue 1e-25 \
+        --threads 60 \
+        > /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hbe_assembly.diamond.blastx.out
+
+#now, contamination removed
+./diamond blastx \
+        --query /projects/gatins/2025_HBE_Genome/jobs/assembly_fishdb_nocontam.fasta \
+        --db reference_proteomes.dmnd \
+        --outfmt 6 qseqid staxids bitscore qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore \
+        --faster \
+        --max-target-seqs 1 \
+        --evalue 1e-25 \
+        --threads 60 \
+        > /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hbe_assembly_nocontam.diamond.blastx.out
+```

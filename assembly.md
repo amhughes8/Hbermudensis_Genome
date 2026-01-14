@@ -253,16 +253,29 @@ First, let's use Diamond to BLAST our assembly before and after contamination re
         > /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/hbe_assembly_nocontam.diamond.blastx.out
 ```
 
-Now, let's create Blobtools directories
-```
-blobtools create \
-    --fasta /projects/gatins/2025_HBE_Genome/jobs/assembly_fishdb_nocontam.fasta \
-    --taxid 272798 \
-    --taxdump /projects/gatins/2025_HCI_Genome/processing/blobtools2/taxdump \ ???
-    --cov /work/gatins/hci_genome/PSMC/no_mtdna/HCI_aligned_sorted.bam \
-    --busco /work/gatins/hci_genome/processing/busco/hifiasm_nomito_busco/run_actinopterygii_odb12/full_table.tsv \
-    --hits /work/gatins/hci_genome/processing/blobtools2/uniprot/nomito_assembly.diamond.blastx.out \
-    /work/gatins/hci_genome/processing/blobtools2/BlobDirs/hifiasm_nomito_assembly_blobdir
+Now, let's create Blobtools directories. First, we need to filter raw reads to get a high-quality dataset to map to the assembly following Kraken2. This output bam file will inform coverage for the blobdir. 
 
-#need a .csi file for coverage bam! make sure to run samtools index -c input.bam output.bam.csi
+```
+# filter with seqkit to 3kQ10
+module load anaconda3/2024.06
+source activate /projects/gatins/programs_explorer/SeqKit/
+seqkit seq /projects/gatins/2025_HBE_Genome/assembly/hbe_noadapters.fastq -m 3000 -Q 10 -j 10 > /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered_3kQ10.fastq
+
+# map high quality dataset to assembly post kraken2
+module load samtools/1.21
+/projects/gatins/programs_explorer/minimap2/minimap2 -t 40 -ax map-ont /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/assembly_fishdb_nocontam.fasta /projects/gatins/2025_HBE_Genome/assembly/hbe_filtered_3kQ10.fastq > /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned.sam
+samtools view -Sb -@ 30 -o /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned.bam /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned.sam
+samtools sort -o /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned_sorted.bam -O bam -@ 20 /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned.bam
+samtools index -b -@ 20 /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned_sorted.bam
+samtools index -c -@ 20 /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned_sorted.bam
+
+# create blobdir
+blobtools create \
+    --fasta /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/assembly_fishdb_nocontam.fasta  \
+    --taxid 272798 \
+    --taxdump /projects/gatins/2025_HCI_Genome/processing/blobtools2/taxdump \
+    --cov /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_fishdb_aligned_sorted.bam \
+    --busco /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/busco_hbe_hifiasm_nocontam_2.5kQ5/run_actinopterygii_odb12/full_table.tsv \
+    --hits /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_assembly_nocontam.diamond.blastx.out \
+    /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_hifiasm_nocontam_assembly_blobdir
 ```

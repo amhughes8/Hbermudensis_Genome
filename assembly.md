@@ -222,7 +222,7 @@ seqkit stats
 
 | file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n | BUSCO |
 |-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|----|
-| assembly_fishdb_nocontam.fasta | FASTA |  DNA | 250 | 609,356,917 | 2,913 | 2,437,427.7 | 32,203,147 | 6,589 | 10,845 | 27,417 | 0 | 26,165,013 |      11  |     0   |    0    |    0 | 41.46   |   0 | busco |
+| assembly_fishdb_nocontam.fasta | FASTA |  DNA | 250 | 609,356,917 | 2,913 | 2,437,427.7 | 32,203,147 | 6,589 | 10,845 | 27,417 | 0 | 26,165,013 |      11  |     0   |    0    |    0 | 41.46   |   0 | 98.8% |
 
 ## More contamination removal with Blobtools2
 

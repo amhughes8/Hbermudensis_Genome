@@ -279,3 +279,20 @@ blobtools create \
     --hits /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_assembly_nocontam.diamond.blastx.out \
     /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/hbe_hifiasm_nocontam_assembly_blobdir
 ```
+Had to run blobtools locally because the permissions changed with Explorer UGH
+
+Looks like we have more nematode contamination! So interesting
+[pic]
+
+Using blobtools to interactively filter for length > 492000
+
+Down to 30 contigs!!! Downloaded a json file 
+
+```
+/projects/gatins/programs_explorer/seqtk/seqtk subseq assembly_fishdb_nocontam.fasta filtered_contigs_keeping.txt > filtered_assembly_blobtools.fasta
+```
+
+Seqkit stats:
+| file |  format | type  |  num_seqs | sum_len | min_len | avg_len | max_len  |  Q1  |   Q2   |  Q3 | sum_gap |   N50 | N50_num | Q20(%) | Q30(%) |  AvgQual | GC(%) | sum_n | BUSCO |
+|-----|----------|------|----------|--------|----------|---------|---------|-------|------|------|-------|-------|------|-------|-------|------|------|------|----|
+| filtered_assembly_blobtools.fasta | FASTA |  DNA |  30 | 604,362,165 | 596,840 | 20,145,405.5 | 32,203,147 | 16,837,992 | 23,054,890 | 27,372,061 |       0 | 26,165,013  |   11   |    0    |   0    |    0 | 41.38   |   0 | 98.8% |

@@ -20,9 +20,6 @@ Run PSMC
 ```
 /projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/fq2psmcfa -q20 consensus.fq.gz > diploid_HBE.psmcfa
 /projects/gatins/2025_HCI_Genome/PSMC/psmc/psmc -N30 -t30 -r5 -p "4+30*2+4+6+10" -o diploid_HBE_final.psmc diploid_HBE.psmcfa
-# module load gnuplot/5.2.7 #???
-# maybe try this instead?
-module load GNU-parallel/2025-04-22
-/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-08 -g 5 HBE_t30r5_plot_u1-8g5 diploid_HBE_final.psmc
-/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 1e-09 -g 5 HBE_t30r5_plot_u1-9g5 diploid_HBE_final.psmc
+
+source activate /projects/gatins/programs_explorer/gnuplot
 /projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE_t30r5_plot_u597-9g5 diploid_HBE_final.psmc

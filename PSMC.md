@@ -36,6 +36,7 @@ Bootstrapping
 mkdir bootstrap
 cp diploid_HBE_split.psmcfa bootstrap
 cp diploid_HBE_final.psmc bootstrap
+cd bootstrap
 echo split_HBE_{001..100}.psmcfa| xargs -n 1 cp diploid_HBE_split.psmcfa
 ```
 

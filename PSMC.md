@@ -27,6 +27,13 @@ Plot
 source activate /projects/gatins/programs_explorer/gnuplot
 /projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE_t30r5_plot_u597-9g5 diploid_HBE_final.psmc
 ```
+The plot looks so weird? It's just a straight line! I see this has happened to other people before ([see this GitHub issue](https://github.com/lh3/psmc/issues/57)), so going to try changing the r value
+
+```
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/psmc -N30 -t30 -r10 -p "4+30*2+4+6+10" -o diploid_HBE_r10.psmc diploid_HBE.psmcfa
+source activate /projects/gatins/programs_explorer/gnuplot
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE_t30r10_plot_u597-9g5 diploid_HBE_r10.psmc
+```
 
 Bootstrapping
 ```

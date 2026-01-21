@@ -35,6 +35,25 @@ source activate /projects/gatins/programs_explorer/gnuplot
 /projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE_t30r10_plot_u597-9g5 diploid_HBE_r10.psmc
 ```
 
+
+Hmm.... okay going to run some tests with different r values. Also going to use the depth of 30 consensus file (consensus30.fq.gz)
+```
+# 10
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/psmc -N30 -t30 -r10 -p "4+30*2+4+6+10" -o diploid_HBE30_r10.psmc diploid_HBE30.psmcfa
+
+# 2
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/psmc -N30 -t30 -r10 -p "4+30*2+4+6+10" -o diploid_HBE30_r2.psmc diploid_HBE30.psmcfa
+
+#7
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/psmc -N30 -t30 -r10 -p "4+30*2+4+6+10" -o diploid_HBE30_r7.psmc diploid_HBE30.psmcfa
+
+# plot
+source activate /projects/gatins/programs_explorer/gnuplot
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE30_t30r10_plot_u597-9g5 diploid_HBE30_r10.psmc
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE30_t30r2_plot_u597-9g5 diploid_HBE30_r2.psmc
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE30_t30r7_plot_u597-9g5 diploid_HBE30_r7.psmc
+```
+
 Bootstrapping
 ```
 /projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/splitfa diploid_HBE.psmcfa > diploid_HBE_split.psmcfa

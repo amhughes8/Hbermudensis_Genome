@@ -110,7 +110,64 @@ echo "My input file is ${FILENAME}"
 cat *.psmc > HBE_combined.psmc
 ```
 
+Bootstrapping new params
 ```
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/splitfa diploid_HBE30.psmcfa > diploid_HBE30_split.psmcfa
+```
+```
+mkdir bootstrap30
+cp diploid_HBE30_split.psmcfa bootstrap30
+cp diploid_HBE30_final.psmc bootstrap30
+cd bootstrap30
+echo split_HBE30_{001..100}.psmcfa| xargs -n 1 cp diploid_HBE30_split.psmcfa
+```
+
+```
+#!/bin/bash
+#SBATCH -J psmc_array			    # Job name
+#SBATCH -p short                            # Partition
+#SBATCH -N 1                                # Number of nodes
+#SBATCH -n 2                                # Number of tasks/threads
+#SBATCH -o array_%A_%a.out    		    # Name of stdout output file
+#SBATCH -e array_%A_%a.err    		    # Name of stdout output file
+#SBATCH --array=1-100			    # Array index
+#SBATCH --mem=6000MB 			    # Memory to be allocated PER NODE
+#SBATCH --mail-user=hughes.annab@northeastern.edu  # Email
+#SBATCH --mail-type=END                     # Email notification at job completion
+#SBATCH --time=48:00:00                     # Maximum run time
+
+echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
+#
+# ----------------Your Commands------------------- #
+#
+echo "This job in the array has:"
+echo "- SLURM_JOB_ID=${SLURM_JOB_ID}"
+echo "- SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID}"
+
+# select our filename
+N=${SLURM_ARRAY_TASK_ID}
+# Comment one of the following two lines, depending on if the file names have leading zeros
+#FILENAME=run-${N}.inp # without leading zeros
+FILENAME=split_HBE30_$(printf "%03d" ${N}).psmcfa # with leading zeros
+# adjust "%03d" to as many digits as are in the numeric part of the file name
+echo "My input file is ${FILENAME}"
+
+#
+echo $P
+#
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/psmc -N30 -t30 -r10 -b -p "1+1+1+1+30*2+4+6+10" -o /projects/gatins/2025_HBE_Genome/PSMC/bootstrap30/${FILENAME}.psmc /projects/gatins/2025_HBE_Genome/PSMC/bootstrap30/${FILENAME}
+#
+
+echo "Job finished" `date`
+echo "My input file is ${FILENAME}"
+```
+
+```
+cat *.psmc > HBE30_combined.psmc
+```
+
+```
+module load anaconda3/
 source activate /projects/gatins/programs_explorer/gnuplot
-/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE_t30r5_plot_u597-9g5 HBE_combined.psmc
+/projects/gatins/2025_HCI_Genome/PSMC/psmc/utils/psmc_plot.pl -u 5.97e-09 -g 5 HBE30_t30r10_plot_u597-9g5 HBE_combined.psmc
 ```

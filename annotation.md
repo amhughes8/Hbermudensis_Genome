@@ -26,3 +26,17 @@ started running at 2:32pm on Jan 28th
 cd /projects/gatins/2025_HBE_Genome/annotation
 apptainer exec dfam-tetools-latest.sif RepeatModeler -LTRStruct -database hbe_genome_repeats -threads 50
 ```
+output in /projects/gatins/2025_HBE_Genome/annotation:
+```
+hbe_genome_repeats-families.fa  #Consensus sequences for each family identified.
+hbe_genome_repeats-families.stk  #Seed alignments for each family identified.
+hbe_genome_repeats-rmod.log  #Execution log.  Useful for reproducing results.
+```
+
+# 2. RepeatMasker
+
+```
+/projects/gatins/2025_HCI_Genome/annotation/RepeatMasker/RepeatMasker -pa 10 -lib hbe_genome_repeats-families.fa -xsmall -gff /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/final_assembly_filtered_nocontam.fasta
+```
+
+In order to run this, I had to reconfigure the paths for libraries, TRF, and RMBlast manually using perl ./configure within the RepeatMasker folder since the path changed after the change to Explorer UGH. Just making this note so I remember in case this ever happens again.

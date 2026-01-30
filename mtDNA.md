@@ -39,5 +39,5 @@ It's about twice the size so I think it's just doubled. I'm going to do a rough 
 seqkit subseq -r 1:17000 mito_genome.fa > mito_genome_half.fa
 ```
 
-Put this fasta into [mitofish](https://mitofish.aori.u-tokyo.ac.jp/annotation/input)'s annotation program and got mito genome with 13 genes, 2 rRNAs, and 23 tRNAs like we would typically expect. 
+Put this fasta into [MitoFish](https://mitofish.aori.u-tokyo.ac.jp/annotation/input)'s annotation program and got mito genome with 13 genes, 2 rRNAs, and 23 tRNAs like we would typically expect. 
 ![plot](photos/circos.png)

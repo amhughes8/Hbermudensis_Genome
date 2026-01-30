@@ -10,7 +10,7 @@ apptainer exec dfam-tetools-latest.sif BuildDatabase -name hbe_genome_repeats fi
 
 RepeatModeler:
 
-started running at 2:32pm on Jan 28th
+duration: 28:53:01
 ```
 #!/bin/bash
 #SBATCH -J repeatmodeler                    # Job name

@@ -102,3 +102,48 @@ run with rmblastn version 2.14.1+
 The query was compared to classified sequences in "hbe_genome_repeats-families.fa"
 FamDB:
 ```
+
+# Gene prediction with BRAKER3
+
+First, we need to map RNAseq data to the reference genome assembly. We are going to use RNAseq from the queen angelfish (_H. ciliaris_) and see how well this works.
+
+```
+# index the genome
+cd /projects/gatins/2025_HBE_Genome/annotation/hci_rnaseq_mapping
+/projects/gatins/programs_explorer/hisat2/hisat2-build -p 20 /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/final_assembly_filtered_nocontam.fasta.masked HBE_masked
+
+# map
+# -x indicates the reference genome index. hisat2 looks for the specified index first in the current directory, then in the directory specified in the HISAT2_INDEXES environment variable.
+export HISAT2_INDEXES=/projects/gatins/2025_HBE_Genome/annotation/hci_rnaseq_mapping
+
+# map to genome and create SAM file
+cd /projects/gatins/2025_HCI_Genome/rnaseq/fastqs/trimmed
+for i in `cat files`; do /projects/gatins/programs_explorer/hisat2/hisat2 -x HBE_masked -1 ${i}_1_polyAremoved_val_1.fq.gz -2 ${i}_2_polyAremoved_val_2.fq.gz -S ${i}_HBE.sam -p 20; done
+
+# load modules
+module load samtools/1.21
+
+# convert SAM to BAM
+for i in `cat files`; do samtools view -u ${i}_HBE.sam | samtools sort -o ${i}_HBE.bam; done
+
+# merge all sample BAM files
+samtools merge -@ 32 hbe_mapped_hci_rnaseq.bam ./*HBE.bam
+```
+
+```
+mv hbe_mapped_hci_rnaseq.bam /projects/gatins/2025_HCI_Genome/annotation/braker/
+```
+
+```
+cd /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/
+cp final_assembly_filtered_nocontam.fasta.masked /projects/gatins/2025_HCI_Genome/annotation/braker/
+
+cd /projects/gatins/2025_HCI_Genome/annotation/braker
+
+apptainer exec -B /projects/gatins/2025_HCI_Genome/annotation/braker /projects/gatins/2025_HCI_Genome/annotation/braker/braker3.sif braker.pl \
+--genome=/projects/gatins/2025_HCI_Genome/annotation/braker/final_assembly_filtered_nocontam.fasta.masked \
+--prot_seq=/projects/gatins/2025_HCI_Genome/annotation/braker/Vertebrata.fa \
+--bam=/projects/gatins/2025_HCI_Genome/annotation/braker/hbe_mapped_hci_rnaseq.bam \
+--threads=30 --species=Hbermudensis --softmasking \
+--AUGUSTUS_CONFIG_PATH=/projects/gatins/2025_HCI_Genome/annotation/braker/config &> hbe_nobusco_hci_rnaseq_braker.log
+```

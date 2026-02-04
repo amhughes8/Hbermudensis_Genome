@@ -210,3 +210,11 @@ module load anaconda3/2024.06
 source activate /projects/gatins/programs_explorer/busco
 busco -i hbe_braker_nseg_li.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 10 --out hbe_filtered_braker_busco
 ```
+| C:99.1%[S:98.5%,D:0.6%],F:0.7%,M:0.2%,n:7207 |
+|----------------------------------------------|
+|	7139	Complete BUSCOs (C) |
+|	7098	Complete and single-copy BUSCOs (S) |
+|	41	Complete and duplicated BUSCOs (D) |
+|	51	Fragmented BUSCOs (F) |
+|	17	Missing BUSCOs (M) |
+|	7207	Total BUSCO groups searched |

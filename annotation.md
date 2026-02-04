@@ -147,3 +147,57 @@ apptainer exec -B /projects/gatins/2025_HCI_Genome/annotation/braker /projects/g
 --threads=30 --species=Hbermudensis --softmasking \
 --AUGUSTUS_CONFIG_PATH=/projects/gatins/2025_HCI_Genome/annotation/braker/config &> hbe_nobusco_hci_rnaseq_braker.log
 ```
+
+number of protein-coding genes predicted:
+```
+grep -c "^>" braker.aa
+```
+26811
+
+Running BUSCO on initial output:
+```
+#!/bin/bash
+#SBATCH -J busco_proteins                    # Job name
+#SBATCH -p short                            # Partition
+#SBATCH -N 1                                # Number of nodes
+#SBATCH -n 10                               # Number of tasks/threads
+#SBATCH -o output_%j.txt                    # Standard output file
+#SBATCH -e error_%j.txt                     # Standard error file
+#SBATCH --mail-user=hughes.annab@northeastern.edu  # Email
+#SBATCH --mail-type=END                     # Email notification at job completion
+#SBATCH --time=48:00:00                     # Maximum run time
+
+module load anaconda3/2024.06
+source activate /projects/gatins/programs_explorer/busco
+busco -i braker.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 10 --out hbe_initial_braker_busco
+```
+
+Now, we will use TSEBRA to filter.
+
+First, we will filter out single-exon genes because BRAKER3 likely overestimates them:
+```
+apptainer exec braker3.sif tsebra.py \
+-g /projects/gatins/2025_HCI_Genome/annotation/braker/hbe_braker/GeneMark-ETP/genemark.gtf \
+-k /projects/gatins/2025_HCI_Genome/annotation/braker/hbe_braker/Augustus/augustus.hints.gtf \
+-e /projects/gatins/2025_HCI_Genome/annotation/braker/hbe_braker/hintsfile.gff \
+--filter_single_exon_genes \
+-c /projects/gatins/2025_HCI_Genome/annotation/braker/default.cfg \
+-o hbe_braker_nseg.gtf
+```
+
+Next, we will filter for the longest isoform:
+```
+apptainer exec braker3.sif get_longest_isoform.py --gtf hbe_braker_nseg.gtf --out hbe_braker_nseg_li.gtf
+```
+
+extract protein sequences:
+```
+/projects/gatins/programs_explorer/gffread/bin/gffread -w hbe_braker_nseg_li.fa -y hbe_braker_nseg_li.aa -g /projects/gatins/2025_HCI_Genome/annotation/braker/final_assembly_filtered_nocontam.fasta.masked hbe_braker_nseg_li.gtf
+```
+
+BUSCO again:
+```
+module load anaconda3/2024.06
+source activate /projects/gatins/programs_explorer/busco
+busco -i hbe_braker_nseg_li.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 10 --out hbe_filtered_braker_busco
+```

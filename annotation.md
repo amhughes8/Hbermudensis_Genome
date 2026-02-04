@@ -173,16 +173,17 @@ busco -i braker.aa --mode proteins --lineage_dataset actinopterygii_odb12 --cpu 
 ```
 | C:94.6%[S:78.7%,D:15.9%],F:0.8%,M:4.6%,n:7207 |
 |-----------------------------------------------|
-|	6815 |	Complete BUSCOs (C) |
-|	5672 |	Complete and single-copy BUSCOs (S) |
-|	1143 | Complete and duplicated BUSCOs (D) |
-|	58 |	Fragmented BUSCOs (F) |
-|	334	| Missing BUSCOs (M) |
-|	7207 |	Total BUSCO groups searched |
+|	6815 Complete BUSCOs (C) |
+|	5672 Complete and single-copy BUSCOs (S) |
+|	1143 Complete and duplicated BUSCOs (D) |
+|	58 Fragmented BUSCOs (F) |
+|	334 Missing BUSCOs (M) |
+|	7207 Total BUSCO groups searched |
   
 Now, we will use TSEBRA to filter.
 
 First, we will filter out single-exon genes because BRAKER3 likely overestimates them:
+running this with 5 cores on an interactive short partition node... took ~3 mins
 ```
 apptainer exec braker3.sif tsebra.py \
 -g /projects/gatins/2025_HCI_Genome/annotation/braker/hbe_braker/GeneMark-ETP/genemark.gtf \

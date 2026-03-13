@@ -218,3 +218,66 @@ busco -i hbe_braker_nseg_li.aa --mode proteins --lineage_dataset actinopterygii_
 |	51	Fragmented BUSCOs (F) |
 |	17	Missing BUSCOs (M) |
 |	7207	Total BUSCO groups searched |
+
+## Functional annotation with InterProScan and Funannotate
+
+```
+#!/bin/bash
+#SBATCH -J hbe_interproscan                    # Job name
+#SBATCH -p short                            # Partition
+#SBATCH -N 1                                # Number of nodes
+#SBATCH -n 20                               # Number of tasks/threads
+#SBATCH -o output_%j.txt                    # Standard output file
+#SBATCH -e error_%j.txt                     # Standard error file
+#SBATCH --mail-user=hughes.annab@northeastern.edu  # Email
+#SBATCH --mail-type=END                     # Email notification at job completion
+#SBATCH --time=48:00:00                     # Maximum run time
+
+apptainer exec \
+    -B /projects/gatins/programs_explorer/InterProScan/interproscan-5.75-106.0/data:/opt/interproscan/data \
+    -B /projects/gatins/2025_HBE_Genome/annotation/hbe_braker:/input \
+    -B /projects/gatins/2025_HBE_Genome/annotation/interproscan/temp:/temp \
+    -B /projects/gatins/2025_HBE_Genome/annotation/interproscan:/output \
+    /projects/gatins/programs_explorer/InterProScan/interproscan_5.75-106.0.sif \
+    /opt/interproscan/interproscan.sh \
+    --input /projects/gatins/2025_HBE_Genome/annotation/hbe_braker/hbe_braker_nseg_li.fa \
+    --disable-precalc \
+    --iprlookup \
+    --goterms \
+    --output-dir /projects/gatins/2025_HBE_Genome/annotation/interproscan \
+    --tempdir /projects/gatins/2025_HBE_Genome/annotation/interproscan/temp \
+    --cpu 20
+```
+
+Funannotate:
+```
+# need a gff3 from filtering after braker earlier
+cd /projects/gatins/2025_HBE_Genome/annotation/hbe_braker
+apptainer exec braker3.sif rename_gtf.py --gtf hbe_braker_nseg_li.gtf --out hbe_braker_nseg_li_renamed.gtf
+apptainer exec braker3.sif gtf2gff.pl < hbe_braker_nseg_li_renamed.gtf --out=hbe_braker_nseg_li_renamed.gff3 --gff3
+```
+```
+#!/bin/bash
+#SBATCH -J hbe_funannotate                    # Job name
+#SBATCH -p short                            # Partition
+#SBATCH -N 1                                # Number of nodes
+#SBATCH -n 35                               # Number of tasks/threads
+#SBATCH -o output_%j.txt                    # Standard output file
+#SBATCH -e error_%j.txt                     # Standard error file
+#SBATCH --mail-user=hughes.annab@northeastern.edu  # Email
+#SBATCH --mail-type=END                     # Email notification at job completion
+#SBATCH --time=48:00:00                     # Maximum run time
+
+apptainer exec --bind /projects/gatins/programs_explorer/funannotate_db:/opt/databases \
+--bind /projects:/projects \
+funannotate_latest.sif funannotate annotate \
+--gff /projects/gatins/2025_HBE_Genome/annotation/hbe_braker/hbe_braker_nseg_li_renamed.gff3 \
+--fasta /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/final_assembly_filtered_nocontam.fasta \
+--species "Holacanthus bermudensis" \
+--rename locus_tag!!!! \
+--out /projects/gatins/2025_HBE_Genome/annotation/hbe_funannotate \
+--iprscan /projects/gatins/2025_HBE_Genome/annotation/interproscan/hbe_braker_nseg_li.fa.xml \
+--busco_db actinopterygii \
+--cpus 35
+--sbt /projects/gatins/2025_HBE_Genome/annotation/hbe_template.sbt
+```

@@ -274,7 +274,7 @@ funannotate_latest.sif funannotate annotate \
 --gff /projects/gatins/2025_HBE_Genome/annotation/hbe_braker/hbe_braker_nseg_li_renamed.gff3 \
 --fasta /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/final_assembly_filtered_nocontam.fasta \
 --species "Holacanthus bermudensis" \
---rename locus_tag!!!! \
+--rename AC0TG9 \
 --out /projects/gatins/2025_HBE_Genome/annotation/hbe_funannotate \
 --iprscan /projects/gatins/2025_HBE_Genome/annotation/interproscan/hbe_braker_nseg_li.fa.xml \
 --busco_db actinopterygii \

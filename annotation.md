@@ -259,7 +259,7 @@ apptainer exec braker3.sif gtf2gff.pl < hbe_braker_nseg_li_renamed.gtf --out=hbe
 ```
 #!/bin/bash
 #SBATCH -J hbe_funannotate                    # Job name
-#SBATCH -p short                            # Partition
+#SBATCH -p long                            # Partition
 #SBATCH -N 1                                # Number of nodes
 #SBATCH -n 35                               # Number of tasks/threads
 #SBATCH -o output_%j.txt                    # Standard output file
@@ -278,6 +278,6 @@ funannotate_latest.sif funannotate annotate \
 --out /projects/gatins/2025_HBE_Genome/annotation/hbe_funannotate \
 --iprscan /projects/gatins/2025_HBE_Genome/annotation/interproscan/hbe_braker_nseg_li.fa.xml \
 --busco_db actinopterygii \
---cpus 35
---sbt /projects/gatins/2025_HBE_Genome/annotation/hbe_template.sbt
+--cpus 35 \
+--sbt /projects/gatins/2025_HBE_Genome/template.sbt
 ```

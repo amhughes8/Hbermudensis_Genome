@@ -256,6 +256,20 @@ cd /projects/gatins/2025_HBE_Genome/annotation/hbe_braker
 apptainer exec braker3.sif rename_gtf.py --gtf hbe_braker_nseg_li.gtf --out hbe_braker_nseg_li_renamed.gtf
 apptainer exec braker3.sif gtf2gff.pl < hbe_braker_nseg_li_renamed.gtf --out=hbe_braker_nseg_li_renamed.gff3 --gff3
 ```
+
+After running into some errors with the queen angelfish submission to NCBI, I now know that this gff should be free of overlapping regions + short (<10bp) sequences, so let's use agat to edit this gff3 before putting it into funannotate
+
+```
+module load anaconda3/2024.06
+source activate /projects/gatins/programs_explorer/agat
+
+# fix overlaps
+agat_sp_fix_overlaping_genes.pl -f hbe_braker_nseg_li_renamed.gff3 -o hbe_overlaps_removed_output.gff3
+
+# filtering out genes with length <10
+agat_sp_filter_gene_by_length.pl --gff hbe_overlaps_removed_output.gff3 --test ">" --size 10 -o hbe_no_overlaps_gt10.gff3
+```
+
 ```
 #!/bin/bash
 #SBATCH -J hbe_funannotate                    # Job name
@@ -271,7 +285,7 @@ apptainer exec braker3.sif gtf2gff.pl < hbe_braker_nseg_li_renamed.gtf --out=hbe
 apptainer exec --bind /projects/gatins/programs_explorer/funannotate_db:/opt/databases \
 --bind /projects:/projects \
 funannotate_latest.sif funannotate annotate \
---gff /projects/gatins/2025_HBE_Genome/annotation/hbe_braker/hbe_braker_nseg_li_renamed.gff3 \
+--gff /projects/gatins/2025_HBE_Genome/annotation/hbe_braker/hbe_no_overlaps_gt10.gff3 \
 --fasta /projects/gatins/2025_HBE_Genome/assembly/hifiasm_2.5kQ5/contam_removal/final_assembly_filtered_nocontam.fasta \
 --species "Holacanthus bermudensis" \
 --rename AC0TG9 \
